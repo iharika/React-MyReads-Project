@@ -1,38 +1,51 @@
-import React from 'react'
-import BookShelf from './BookShelf.js'
-import * as booksApi from '../BooksAPI'
+import React from 'react';
+import BookShelf from './BookShelf.js';
+import * as booksApi from '../BooksAPI';
 
 class BooksList extends React.Component {
-    state = {
-        books: [],
-        // currentlyReadingBooks: [],
-        // readBooks: [],
-        // wantToReadBooks: []
-    }
+	constructor(props) {
+		super();
+		this.state = {
+			books: []
+		};
+	}
+	loadData() {
+		var promise = new Promise((resolve, reject) => {
+			booksApi.getAll().then(data => {
+				resolve(data);
+			});
+		});
+		return promise;
+	}
+	componentDidMount() {
+		this.loadData().then(data => {
+			this.setState({
+				books: data
+			});
+		});
+	}
 
-    componentDidMount() {
-        booksApi.getAll().then((data) => {
-            // let currentlyReadingBooks = data.filter(data => data.shelf === 'currentlyReading');
-            // let wantToReadBooks = data.filter(data => data.shelf === 'wantToRead')
-            // let readBooks = data.filter(data => data.shelf === 'read')
-            this.setState({
-                books: data
-            })
-            // currentlyReadingBooks: currentlyReadingBooks,
-            //     wantToReadBooks: wantToReadBooks,
-            //     readBooks: readBooks
-        })
-    }
-
-    render() {
-        return (<div className="list-books-content">
-            <div>
-                <BookShelf shelfBooks={this.state.books} shelfName='Currently Reading' />
-            </div>
-        </div>)
-    }
-
-
+	render() {
+		const books = this.state.books;
+		return (
+			<div className="list-books-content">
+				<div>
+					<BookShelf
+						shelfBooks={books.filter(book => book.shelf === 'currentlyReading')}
+						shelfName="Currently Reading"
+					/>
+					<BookShelf
+						shelfBooks={books.filter(book => book.shelf === 'read')}
+						shelfName="Read"
+					/>
+					<BookShelf
+						shelfBooks={books.filter(book => book.shelf === 'wantToRead')}
+						shelfName="Want to Read"
+					/>
+				</div>
+			</div>
+		);
+	}
 }
 
-export default BooksList
+export default BooksList;
