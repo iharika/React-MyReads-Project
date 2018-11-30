@@ -20,7 +20,7 @@ class Book extends React.Component {
 						}}
 					/>
 					<div className="book-shelf-changer">
-						<select>
+						<select value={this.state.myBook.shelf}>
 							<option value="move" disabled>
 								Move to...
 							</option>
