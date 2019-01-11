@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import './App.css';
 import SearchBooks from './components/SearchBooks';
 import BooksList from './components/BooksList';
@@ -40,27 +41,29 @@ class BooksApp extends React.Component {
 	render() {
 		return (
 			<div className='app'>
-				{this.state.showSearchPage ? (
-					<div>
-						{' '}
-						<SearchBooks />{' '}
-					</div>
-				) : (
-					<div className='list-books'>
-						<div className='list-books-title'>
-							<h1>MyReads</h1>
+				<Route
+					exact
+					path=''
+					render={() => (
+						<div className='list-books'>
+							<div className='list-books-title'>
+								<h1>MyReads</h1>
+							</div>
+							<BooksList
+								books={this.state.books}
+								onChange={this.moveBookToShelf}
+							/>
+							<div className='open-search'>
+								<button onClick={() => this.setState({ showSearchPage: true })}>
+									Add a book
+								</button>
+							</div>
 						</div>
-						<BooksList
-							books={this.state.books}
-							onChange={this.moveBookToShelf}
-						/>
-						<div className='open-search'>
-							<button onClick={() => this.setState({ showSearchPage: true })}>
-								Add a book
-							</button>
-						</div>
-					</div>
-				)}
+					)}
+				/>
+				<div>
+					<Route path='/search' component={SearchBooks} />
+				</div>
 			</div>
 		);
 	}
