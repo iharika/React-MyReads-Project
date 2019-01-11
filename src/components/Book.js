@@ -1,13 +1,14 @@
 import React from 'react';
 import '../App.css';
-
 class Book extends React.Component {
 	state = {
 		myBook: this.props.bookData
 	};
+	moveShelf = (e) => {
+		this.props.moveBookToShelf(e.target.value)
+	}
 	render() {
 		const bookImg = this.state.myBook.imageLinks.smallThumbnail;
-
 		return (
 			<div className="book">
 				<div className="book-top">
@@ -20,7 +21,7 @@ class Book extends React.Component {
 						}}
 					/>
 					<div className="book-shelf-changer">
-						<select value={this.state.myBook.shelf}>
+						<select value={this.state.myBook.shelf} onChange={this.moveShelf}>
 							<option value="move" disabled>
 								Move to...
 							</option>
@@ -32,8 +33,8 @@ class Book extends React.Component {
 					</div>
 				</div>
 				<div className="book-title">{this.state.myBook.title}</div>
-				<div className="book-authors">Harper Lee</div>
-			</div>
+				<div className="book-authors">{this.state.myBook.authors.join(", ")}</div>
+			</div >
 		);
 	}
 }

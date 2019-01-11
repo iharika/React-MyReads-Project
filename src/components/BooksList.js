@@ -3,44 +3,46 @@ import BookShelf from './BookShelf.js';
 import * as booksApi from '../BooksAPI';
 
 class BooksList extends React.Component {
-	constructor(props) {
-		super();
-		this.state = {
-			books: []
-		};
-	}
-	loadData() {
-		var promise = new Promise((resolve, reject) => {
-			booksApi.getAll().then(data => {
-				resolve(data);
-			});
-		});
-		return promise;
-	}
-	componentDidMount() {
-		this.loadData().then(data => {
-			this.setState({
-				books: data
-			});
-		});
-	}
 
+	// loadData() {
+	// 	var promise = new Promise((resolve, reject) => {
+	// 		booksApi.getAll().then(data => {
+	// 			resolve(data);
+	// 		});
+	// 	});
+	// 	return promise;
+	// }
+	// renderData() {
+	// 	booksApi.getAll().then(data => {
+	// 		this.setState({
+	// 			books: data
+	// 		});
+	// 	});
+	// }
+	// moveBookToShelf(bookToMove, shelfToMove) {
+	// 	booksApi.update(bookToMove, shelfToMove).then(() => {
+	// 		this.renderData()
+	// 	})
+	// }
+	// componentDidMount() {
+	// 	this.renderData();
+	// }
 	render() {
-		const books = this.state.books;
+		const books = this.props.books;
 		return (
 			<div className="list-books-content">
 				<div>
 					<BookShelf
 						shelfBooks={books.filter(book => book.shelf === 'currentlyReading')}
-						shelfName="Currently Reading"
+						shelfName="Currently Reading" onMoveBookToShelf={this.props.onChange}
 					/>
 					<BookShelf
 						shelfBooks={books.filter(book => book.shelf === 'read')}
-						shelfName="Read"
+						shelfName="Read" onMoveBookToShelf={this.props.onChange}
 					/>
 					<BookShelf
 						shelfBooks={books.filter(book => book.shelf === 'wantToRead')}
-						shelfName="Want to Read"
+						shelfName="Want to Read" onMoveBookToShelf={this.props.onChange}
 					/>
 				</div>
 			</div>
