@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import Book from './Book';
 import * as booksApi from '../BooksAPI';
-import * as utils from '../utils/utils';
 
 class SearchBooks extends React.Component {
 	state = {
