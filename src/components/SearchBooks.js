@@ -20,7 +20,7 @@ class SearchBooks extends React.Component {
 		}
 	};
 	addBookToShelf = (book, shelfToMove) => {
-		utils.moveBookToShelf(book, shelfToMove);
+		this.props.onChange(book, shelfToMove);
 	};
 	compareAndUpdateShelfForSearchResults(result) {
 		let userBooks = this.props.userBooks;
